@@ -3785,7 +3785,10 @@ fn translate_impl(
             // do something async
 
             let mut content = String::from("//");
-            if let Ok(res) = reqwest::Client::new()
+            if let Ok(res) = reqwest::ClientBuilder::new()
+                .timeout(std::time::Duration::from_secs(3))
+                .build()
+                .unwrap()
                 .get(&format!(
         "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=zh-cn&dt=t&q={}",
         joined
